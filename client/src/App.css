@@ -1,38 +1,101 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #6200ee;
+  /* height: 100px; */
+  /* overflow-y: hidden; */
+}
+.app {
+  height: 100vh;
+  overflow-y: hidden;
+}
+.main {
+  margin-top: 50px;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  border-bottom: 1px solid grey;
+}
+.total {
+  display: flex;
+  align-items: center;
+}
+.total h3 {
+  border-right: 1px solid grey;
+  margin-right: 10px;
+  padding: 10px 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* expenses */
+.expense {
+  overflow-y: scroll;
+  height: 75vh;
+  -ms-overflow-style: none;
+  align-self: center;
+}
+.expense::-webkit-scrollbar {
+  display: none;
+}
+.expense-body {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.expense-content {
+  padding: 15px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+.expense-note {
+  display: flex;
+}
+.expense-cost {
+  margin-left: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* form */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.add-form {
+  /* align-self: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 30px;
 }
-
-.App-link {
-  color: #61dafb;
+.add-form input {
+  width: 300px;
+  outline: none;
+  border: 1px solid #ffffff;
+  padding: 6px;
+  border-radius: 4px;
+  background-color: transparent;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.add-form input::placeholder {
+  color: #ffffff99;
 }
+.add-form button {
+  float: left;
+  background-color: #03dac5;
+  text-align: left;
+  /* font: normal normal medium 14px/16px Roboto; */
+  /* letter-spacing: 1.25px; */
+  font-weight: 600;
+  color: #000000de;
+  text-transform: uppercase;
+  opacity: 1;
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  padding: 5px;
+}
+/* .add-button {
+  align-self: start;
+} */
