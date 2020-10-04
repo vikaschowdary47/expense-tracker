@@ -52,12 +52,34 @@ body {
   background-color: white;
   display: flex;
   align-items: center;
+  border-radius: 4px;
+}
+.expense-content h6 {
+  color: #6200ee;
+  font-weight: 700;
+}
+.date {
+  color: gray;
 }
 .expense-note {
   display: flex;
+  /* color: lightgray; */
+  font-size: 14px;
+}
+.expense-note span {
+  color: gray;
+  margin-right: 5px;
 }
 .expense-cost {
   margin-left: 50px;
+}
+.icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 7px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 /* form */
@@ -77,6 +99,7 @@ body {
   padding: 6px;
   border-radius: 4px;
   background-color: transparent;
+  color: white;
 }
 .add-form input::placeholder {
   color: #ffffff99;
