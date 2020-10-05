@@ -49,9 +49,11 @@ body {
 }
 .expense-content {
   padding: 15px;
+  width: 300px;
   background-color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-radius: 4px;
 }
 .expense-content h6 {
@@ -96,15 +98,22 @@ body {
   width: 300px;
   outline: none;
   border: 1px solid #ffffff;
-  padding: 6px;
+  padding: 10px;
   border-radius: 4px;
   background-color: transparent;
   color: white;
+  margin-bottom: 15px;
 }
 .add-form input::placeholder {
   color: #ffffff99;
 }
-.add-form button {
+.date-form::placeholder {
+  color: #ffffff99;
+}
+.date-form button {
+  align-self: center;
+}
+.add-button button {
   float: left;
   background-color: #03dac5;
   text-align: left;

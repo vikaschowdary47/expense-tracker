@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Main from "./components/Main";
 import Nav from "./components/Nav";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 function App() {
   return (
