@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
 import { ExpensesContext } from "../context/ExpensesContext";
 
@@ -38,13 +39,26 @@ const Form = ({ data, editData, field }) => {
         // setDate(data.date);
       });
     }
-  }, [editData]);
+  }, [editData, data]);
 
-  // console.log(editData);
-  // console.log(data);
-  const edit = () => {
-    editData.map((data) => setNote(data.note));
-    console.log(editData.map((data) => data.note));
+  const edit = async () => {
+    const expense = {
+      title: title,
+      amount: Number(amount),
+      note: note,
+      date: date,
+    };
+    await axios.post(
+      `http://localhost:9000/api/expense/edit/${editData[0]._id}`,
+      expense
+    );
+    setTitle("");
+    setAmount("");
+    setNote("");
+    setDate(new Date());
+    await axios.get("http://localhost:9000/api/expense/").then((res) => {
+      setExpenses(res.data);
+    });
   };
 
   return (
@@ -86,18 +100,26 @@ const Form = ({ data, editData, field }) => {
         />
         <br />
         <div className="add-button">
-          <button type="submit">
-            <AddIcon />
-            ADD EXPENSE
-          </button>
+          {data ? (
+            ""
+          ) : (
+            <button type="submit">
+              <AddIcon />
+              ADD EXPENSE
+            </button>
+          )}
         </div>
       </form>
-      <br />
-      {editData.length > 0 ? (
-        <div className="add-button">
-          <button onClick={edit}>Edit Data</button>
-        </div>
-      ) : null}
+      <div className="add-button">
+        {data ? (
+          <button onClick={edit}>
+            <EditIcon />
+            Edit Data
+          </button>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };

@@ -7,9 +7,7 @@ import axios from "axios";
 import { ExpensesContext } from "../context/ExpensesContext";
 
 const Expenses = ({ data, editData, field, total }) => {
-  // const [expenses, setExpenses] = useState([]);
   const [expenses, setExpenses] = useContext(ExpensesContext);
-  const [totalAmount, setTotalAmount] = useState([]);
 
   const removeField = async (id) => {
     await axios.delete(`http://localhost:9000/api/expense/${id}`);
@@ -19,21 +17,15 @@ const Expenses = ({ data, editData, field, total }) => {
   };
 
   const editField = async (id) => {
-    // await axios.get("http://localhost:9000/api/expense/").then((res) => {})
     const editExpense = expenses.filter((ex) => ex._id === id);
     editData(editExpense);
     data(true);
-    console.log(editExpense);
   };
   return (
     <div className="expense">
       {expenses.map((expense, i) => (
         <div className="expense-body" key={i}>
-          <div
-            className="icons"
-            // onClick={() => editField(expense._id)}
-            onClick={() => editField(expense._id)}
-          >
+          <div className="icons" onClick={() => editField(expense._id)}>
             <IconButton style={{ border: "none", outline: "none" }}>
               <EditIcon />
             </IconButton>
