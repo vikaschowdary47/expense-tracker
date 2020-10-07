@@ -1,36 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import HighlightOffTwoToneIcon from "@material-ui/icons/HighlightOffTwoTone";
 import { IconButton } from "@material-ui/core";
+import { Alert } from "react-bootstrap";
 import axios from "axios";
+import { ExpensesContext } from "../context/ExpensesContext";
 
-const Expenses = ({ data, editData, field }) => {
-  const [expenses, setExpenses] = useState([]);
-
-  useEffect(() => {
-    const expensesData = async () => {
-      await axios.get("http://localhost:9000/api/expense/").then((res) => {
-        setExpenses(res.data);
-        console.log(res.data);
-      });
-    };
-    expensesData();
-  }, [data]);
+const Expenses = ({ data, editData, field, total }) => {
+  // const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useContext(ExpensesContext);
+  const [totalAmount, setTotalAmount] = useState([]);
 
   const removeField = async (id) => {
     await axios.delete(`http://localhost:9000/api/expense/${id}`);
     await axios.get("http://localhost:9000/api/expense/").then((res) => {
       setExpenses(res.data);
-      data = res.data;
-      // console.log(res.data);
     });
   };
-  // const editField = async (id) => {
-  //   // await axios.get("http://localhost:9000/api/expense/").then((res) => {})
-  //   const editExpense = expenses.filter((ex) => ex._id === id);
-  //   editData(editExpense);
-  //   console.log(editExpense);
-  // };
+
+  const editField = async (id) => {
+    // await axios.get("http://localhost:9000/api/expense/").then((res) => {})
+    const editExpense = expenses.filter((ex) => ex._id === id);
+    editData(editExpense);
+    data(true);
+    console.log(editExpense);
+  };
   return (
     <div className="expense">
       {expenses.map((expense, i) => (
@@ -38,7 +32,7 @@ const Expenses = ({ data, editData, field }) => {
           <div
             className="icons"
             // onClick={() => editField(expense._id)}
-            onClick={field}
+            onClick={() => editField(expense._id)}
           >
             <IconButton style={{ border: "none", outline: "none" }}>
               <EditIcon />
@@ -62,7 +56,12 @@ const Expenses = ({ data, editData, field }) => {
               </div>
             </div>
           </div>
-          <div className="icons" onClick={() => removeField(expense._id)}>
+          <div
+            className="icons"
+            onClick={() => {
+              removeField(expense._id);
+            }}
+          >
             <IconButton style={{ border: "none", outline: "none" }}>
               <HighlightOffTwoToneIcon />
             </IconButton>

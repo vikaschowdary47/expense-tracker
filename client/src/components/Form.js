@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { ExpensesContext } from "../context/ExpensesContext";
 
 const Form = ({ data, editData, field }) => {
+  const [expenses, setExpenses] = useContext(ExpensesContext);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [date, setDate] = useState(new Date());
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const expense = {
       title: title,
@@ -18,50 +20,42 @@ const Form = ({ data, editData, field }) => {
       note: note,
       date: date,
     };
-    axios.post("http://localhost:9000/api/expense/add", expense);
-    console.log(expense);
-    data(expense);
+    await axios.post("http://localhost:9000/api/expense/add", expense);
+    setTitle("");
+    setAmount("");
+    setNote("");
+    setDate(new Date());
+    await axios.get("http://localhost:9000/api/expense/").then((res) => {
+      setExpenses(res.data);
+    });
+  };
+  useEffect(() => {
+    if (data === true) {
+      editData.map((data) => {
+        setNote(data.note);
+        setAmount(data.amount);
+        setTitle(data.title);
+        // setDate(data.date);
+      });
+    }
+  }, [editData]);
+
+  // console.log(editData);
+  // console.log(data);
+  const edit = () => {
+    editData.map((data) => setNote(data.note));
+    console.log(editData.map((data) => data.note));
   };
 
-  const fields = () => {
-    // if (editData) {
-    setTitle("title");
-    setAmount(10);
-    // setDate("date");
-    setNote("note");
-    // editData.map((d) => {
-    // setTitle(d.title);
-    // setAmount(d.amount);
-    // setDate(d.date);
-    // setNote(d.note);
-    //     console.log(d.title);
-    //     console.log(d.amount);
-    //     console.log(d.date);
-    //     console.log(d.note);
-    //   });
-    // }
-  };
-  // if (field) {
-  //   fields();
-  // }
-
-  // const test = () => {
-  //   setTitle("title");
-  //   setAmount(10);
-  //   // setDate("date");
-  //   setNote("note");
-  // };
-
-  console.log(editData);
   return (
     <div className="add-form">
-      {/* {editData ? fields() : null} */}
       <form onSubmit={onSubmit}>
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         <br />
         <input
@@ -69,6 +63,7 @@ const Form = ({ data, editData, field }) => {
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          required
         />
         <br />
         <input
@@ -76,6 +71,7 @@ const Form = ({ data, editData, field }) => {
           placeholder="Note"
           value={note}
           onChange={(e) => setNote(e.target.value)}
+          required
         />
         <br />
         <DatePicker
@@ -86,6 +82,7 @@ const Form = ({ data, editData, field }) => {
           showYearDropdown
           scrollableMonthYearDropdown
           onChange={(date) => setDate(date)}
+          required
         />
         <br />
         <div className="add-button">
@@ -95,7 +92,12 @@ const Form = ({ data, editData, field }) => {
           </button>
         </div>
       </form>
-      <button onClick={test}>sfdsff</button>
+      <br />
+      {editData.length > 0 ? (
+        <div className="add-button">
+          <button onClick={edit}>Edit Data</button>
+        </div>
+      ) : null}
     </div>
   );
 };
